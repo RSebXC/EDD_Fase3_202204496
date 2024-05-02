@@ -1,0 +1,9 @@
+ digraph G {
+ "Node_tbdf7cb7e-b165-4f40-6bc2-38f0b7fb95a6"[label= "id:            2  contra:                               96" ]
+ "Node_tbdf7cb7e-b165-4f40-6bc2-38f0b7fb95a6"->"Node_t09303bdc-1058-406b-7756-8b4ad7bfa307"
+ "Node_tbdf7cb7e-b165-4f40-6bc2-38f0b7fb95a6"->"Node_t9bc37182-d627-4907-5a2f-e5773ff6b1c7"
+ "Node_t09303bdc-1058-406b-7756-8b4ad7bfa307"[label= "id:            1  contra:                               CA" ]
+ "Node_t9bc37182-d627-4907-5a2f-e5773ff6b1c7"[label= "id:            4  contra:                               96" ]
+ "Node_t9bc37182-d627-4907-5a2f-e5773ff6b1c7"->"Node_tf9753bad-26d4-4869-61f7-34beedbd1700"
+ "Node_tf9753bad-26d4-4869-61f7-34beedbd1700"[label= "id:            5  contra:                               63" ]
+ }

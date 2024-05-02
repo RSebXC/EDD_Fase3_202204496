@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "departamento": "Guatemala",
+      "direccion": "7 calle 5-45 zona 1",
+      "password": "1234"
+    },
+    {
+      "id": 2,
+      "departamento": "Huehuetenango",
+      "direccion": "3 avenida 5-45 zona 2",
+      "password": "321"
+    },
+    {
+      "id": 4,
+      "departamento": "Mazatenango",
+      "direccion": "8 avenida 4-61 zona 10",
+      "password": "123"
+    },
+    {
+      "id": 5,
+      "departamento": "Escuintla",
+      "direccion": "2 avenida 5-45 zona 4",
+      "password": "12"
+    }
+  ]
