@@ -28,21 +28,22 @@ program main
     type(result_list) :: listaRuta, listabyImp
     character(:), allocatable :: Encriptada
     character(len=30) :: passwordEncriptada
+    
   
-    print *,"Inicio de sesion"
-    print *, "Ingrese el usuario:"
+    print *,"Iniciar Sesion"
+    print *, "Ingrese su usuario:"
     read (*, '(A)') loginUser
-    print *, "Ingrese la contrasena"
+    print *, "Ingrese su contrasena"
     read (*, '(A)') loginPass
   
-    if (loginUser == "a" .and. loginPass == "a") then
+    if (loginUser == "admin" .and. loginPass == "123") then
       do
-        print *, "1. Carga de archivos"
-        print *, "2. Administrar Sucursales"
-        print *, "3. Generar Reportes"
+        print *, "1. Cargar archivos"
+        print *, "2. Administrar las Sucursales"
+        print *, "3. Generar los Reportes"
         print *, "4. Salir"
         print *, "----------------------------------------------------"
-        print *, "Ingrese el numero correspondiente a su opcion: "
+        print *, "Ingrese una opcion: "
         read(*,*) opcion
         select case(opcion)
         case(1)
@@ -53,92 +54,17 @@ program main
       
           select case(opcion)
             case (1)
-              print *, "Carga de sucursales seleccionada."
+              print *, "Carga de sucursales."
               print *, "Ingrese la ruta del archivo de sucursales: "
               read (*,*) filename_json
-              call json%initialize()
-              call json%load(filename=filename_json)
-              call json%info('', n_children=size)
-              call json%get_core(jsonc)
-              call json%get('', sucur_pointer, found)
-              do i = 1, size
-                call jsonc%get_child(sucur_pointer, i, deptPointer, found=found)
-                  call jsonc%get_child(deptPointer, 'id', partPointer, found=found)
-                  if (found) then
-                    call jsonc%get(partPointer, id_sucursal)
-                    print *, 'ID: ', id_sucursal
-                  end if
-                          
-                  call jsonc%get_child(deptPointer, 'departamento', partPointer, found=found)
-                  if (found) then
-                    call jsonc%get(partPointer, departamento)
-                    print *, 'Departamento: ', departamento
-                  end if
-                          
-                  call jsonc%get_child(deptPointer, 'direccion', partPointer, found=found)
-                  if (found) then
-                    call jsonc%get(partPointer, direccion)
-                    print *, 'Dirección: ', direccion
-                  end if
-                  call jsonc%get_child(deptPointer, 'password', partPointer, found=found)
-                  if (found) then
-                    call jsonc%get(partPointer, password)
-                    print *, 'Contraseña: ', password
-                  end if
-                  Encriptada = hashPassword(password)
-                  call avl_sucursales%insert_node(id_sucursal, departamento, direccion, Encriptada)
-              end do
-              call avl_sucursales%graph_avl_tree()
-              call json%destroy()
+              call leerJson()
       
               case (2)
-                print *, "Carga de rutas seleccionada."
+                print *, "Carga de rutas."
                 print *, "Ingrese la ruta del archivo de sucursales: "
                 read (*,*) filename_json
-  
-                ! Inicializar y cargar el JSON desde el archivo
-                call json%initialize()
-                call json%load(filename=filename_json)
-                call json%info('grafo', n_children=size) ! Aquí especificamos 'grafo' como la clave del arreglo
-                call json%get('grafo', grafo_pointer, found) ! Obtenemos el puntero al arreglo 'grafo'
-  
-                do i = 1, size
-                    call jsonc%get_child(grafo_pointer, i, edgePointer, found=found) ! Obtenemos el i-ésimo elemento del arreglo 'grafo'
-  
-                    call jsonc%get_child(edgePointer, 's1', partPointer, found=found)
-                    if (found) then
-                        call jsonc%get(partPointer, s1)
-                        print *, 'Sucursal 1: ', s1
-                    end if
-  
-                    call jsonc%get_child(edgePointer, 's2', partPointer, found=found)
-                    if (found) then
-                        call jsonc%get(partPointer, s2)
-                        print *, 'Sucursal 2: ', s2
-                    end if
-  
-                    call jsonc%get_child(edgePointer, 'distancia', partPointer, found=found)
-                    if (found) then
-                        call jsonc%get(partPointer, distancia)
-                        print *, 'Distancia: ', distancia
-                    end if
-  
-                    call jsonc%get_child(edgePointer, 'imp_mantenimiento', partPointer, found=found)
-                    if (found) then
-                        call jsonc%get(partPointer, imp_mantenimiento)
-                        print *, 'Impresoras en Mantenimiento: ', imp_mantenimiento
-                        print *, "--------------------------------------------------"
-                    end if
-                    call graphRutas%insert_data(s1,s2,distancia,imp_mantenimiento)
-                    call graphImp%insert_data_2(s1,s2,imp_mantenimiento, distancia)
-                end do
-                print *, "MOSTRANDO RUTAS ---------------------"
-                call graphRutas%show()
-                print *, "-------------------------------"
-                call analizador%set_graph(graphRutas)
-                call analizadorImp%set_graph(graphImp)
-                call graphRutas%graficar('Rute')
-                call json%destroy()
+                call leerJson2()
+                
               case default
                   print *,  "Opción inválida."
           end select
@@ -152,8 +78,8 @@ program main
           call avl_sucursales%searchNode(id_sucursal, Encriptada)
           print *, "Bienvenido a la sucursal ", id_sucursal
           print *, "Ingrese una opción: "
-          print *, "1. Carga de tecnicos"
-          print *, "2. Generar recorrido más óptimo"
+          print *, "1. Cargar tecnicos"
+          print *, "2. Generar el recorrido más óptimo"
           print *, "3. Información Técnico en Específico"
           print *, "4. Listar Tecnicos"
           print *, "5. Generar Reportes"
@@ -164,61 +90,8 @@ program main
               ! Código para la opción "Carga de tecnicos"
               print *, "Ingrese la ruta del archivo de tecnicos: "
               read (*,*) filename_json
-              call json%initialize()    ! Se inicializa el módulo JSON
-              call json%load(filename=filename_json)  ! Se carga el archivo JSON llamado 'config.json'
-              call json%print()         ! Se imprime el contenido del archivo JSON (opcional)
-              call json%info('',n_children=size)
-              call json%get_core(jsonc)               ! Se obtiene el núcleo JSON para acceder a sus funciones básicas
-              call json%get('', tech_pointer, found)
-  
-              do i=1, size
-                  call jsonc%get_child(tech_pointer, i, personPointer, found=found)
-  
-                  call jsonc%get_child(personPointer, 'dpi', attributePointer, found=found)
-                  if (found) then
-                      call jsonc%get(attributePointer, dpi_value)
-                      print *, 'DPI: ', dpi_value
-                      read(dpi_value,'(I13)') dpi
-                      
-                  end if
-  
-                  call jsonc%get_child(personPointer, 'nombre', attributePointer, found=found)
-                  if (found) then
-                      call jsonc%get(attributePointer, name)
-                      print *, 'Nombre: ', name
-                  end if
-  
-                  call jsonc%get_child(personPointer, 'apellido', attributePointer, found=found)
-                  if (found) then
-                      call jsonc%get(attributePointer, lastname)
-                      print *, 'Apellido: ', lastname
-                  end if
-  
-                  call jsonc%get_child(personPointer, 'genero', attributePointer, found=found)
-                  if (found) then
-                      call jsonc%get(attributePointer, genre)
-                      print *, 'Genero: ', genre
-                  end if
-  
-                  call jsonc%get_child(personPointer, 'direccion', attributePointer, found=found)
-                  if (found) then
-                      call jsonc%get(attributePointer, address)
-                      print *, 'Direccion: ', address
-                  end if
-  
-                  call jsonc%get_child(personPointer, 'telefono', attributePointer, found=found)
-                  if (found) then
-                      call jsonc%get(attributePointer, phone_value)
-                      print *, 'Telefono: ', phone_value
-                      read(phone_value,'(I13)') phone
-                  end if
-                  call table%insert(dpi, name, lastname, address, phone)
-              end do
-                  call table%print()
-                  call avl_sucursales%searchNode_hash(id_sucursal, table)
-                  call table%grafico("hash.dot")
-  
-                  call json%destroy()
+              call leerJson3()
+              
   
             case(2)
               print *, "Ingresa un DPI"
@@ -279,5 +152,141 @@ program main
         
       end do
     end if
+
+    contains
+
+    subroutine leerJson()
+      call json%initialize()
+              call json%load(filename=filename_json)
+              call json%info('', n_children=size)
+              call json%get_core(jsonc)
+              call json%get('', sucur_pointer, found)
+              do i = 1, size
+                call jsonc%get_child(sucur_pointer, i, deptPointer, found=found)
+                  call jsonc%get_child(deptPointer, 'id', partPointer, found=found)
+                  if (found) then
+                    call jsonc%get(partPointer, id_sucursal)
+                    print *, 'ID: ', id_sucursal
+                  end if
+                          
+                  call jsonc%get_child(deptPointer, 'departamento', partPointer, found=found)
+                  if (found) then
+                    call jsonc%get(partPointer, departamento)
+                    print *, 'Departamento: ', departamento
+                  end if
+                          
+                  call jsonc%get_child(deptPointer, 'direccion', partPointer, found=found)
+                  if (found) then
+                    call jsonc%get(partPointer, direccion)
+                    print *, 'Dirección: ', direccion
+                  end if
+                  call jsonc%get_child(deptPointer, 'password', partPointer, found=found)
+                  if (found) then
+                    call jsonc%get(partPointer, password)
+                    print *, 'Contraseña: ', password
+                  end if
+                  Encriptada = hashPassword(password)
+                  call avl_sucursales%insert_node(id_sucursal, departamento, direccion, Encriptada)
+              end do
+              call avl_sucursales%graph_avl_tree()
+              call json%destroy()
+    end subroutine leerJson
+
+    subroutine leerJson2()
+      ! Inicializar y cargar el JSON desde el archivo
+      call json%initialize()
+      call json%load(filename=filename_json)
+      call json%info('grafo', n_children=size) ! Aquí especificamos 'grafo' como la clave del arreglo
+      call json%get('grafo', grafo_pointer, found) ! Obtenemos el puntero al arreglo 'grafo'
+
+      do i = 1, size
+          call jsonc%get_child(grafo_pointer, i, edgePointer, found=found) ! Obtenemos el i-ésimo elemento del arreglo 'grafo'
+
+          call jsonc%get_child(edgePointer, 's1', partPointer, found=found)
+          if (found) then
+              call jsonc%get(partPointer, s1)
+              print *, 'Sucursal 1: ', s1
+          end if
+
+          call jsonc%get_child(edgePointer, 's2', partPointer, found=found)
+          if (found) then
+              call jsonc%get(partPointer, s2)
+              print *, 'Sucursal 2: ', s2
+          end if
+
+          call jsonc%get_child(edgePointer, 'distancia', partPointer, found=found)
+          if (found) then
+              call jsonc%get(partPointer, distancia)
+              print *, 'Distancia: ', distancia
+          end if
+
+          call jsonc%get_child(edgePointer, 'imp_mantenimiento', partPointer, found=found)
+          if (found) then
+              call jsonc%get(partPointer, imp_mantenimiento)
+              print *, 'Impresoras en Mantenimiento: ', imp_mantenimiento
+              print *, "--------------------------------------------------"
+          end if
+          call graphRutas%insert_data(s1,s2,distancia,imp_mantenimiento)
+          call graphImp%insert_data_2(s1,s2,imp_mantenimiento, distancia)
+      end do
+      print *, "MOSTRANDO RUTAS ---------------------"
+      call graphRutas%show()
+      print *, "-------------------------------"
+      call analizador%set_graph(graphRutas)
+      call analizadorImp%set_graph(graphImp)
+      call graphRutas%graficar('Rute')
+      call json%destroy()
+    end subroutine leerJson2
+
+    subroutine leerJson3()
+      call json%initialize()    ! Se inicializa el módulo JSON
+              call json%load(filename=filename_json)  ! Se carga el archivo JSON llamado 'config.json'
+              call json%print()         ! Se imprime el contenido del archivo JSON (opcional)
+              call json%info('',n_children=size)
+              call json%get_core(jsonc)               ! Se obtiene el núcleo JSON para acceder a sus funciones básicas
+              call json%get('', tech_pointer, found)
+              do i=1, size
+                  call jsonc%get_child(tech_pointer, i, personPointer, found=found)
+                  call jsonc%get_child(personPointer, 'dpi', attributePointer, found=found)
+                  if (found) then
+                      call jsonc%get(attributePointer, dpi_value)
+                      print *, 'DPI: ', dpi_value
+                      read(dpi_value,'(I13)') dpi 
+                  end if
+                  call jsonc%get_child(personPointer, 'nombre', attributePointer, found=found)
+                  if (found) then
+                      call jsonc%get(attributePointer, name)
+                      print *, 'Nombre: ', name
+                  end if
+                  call jsonc%get_child(personPointer, 'apellido', attributePointer, found=found)
+                  if (found) then
+                      call jsonc%get(attributePointer, lastname)
+                      print *, 'Apellido: ', lastname
+                  end if
+                  call jsonc%get_child(personPointer, 'genero', attributePointer, found=found)
+                  if (found) then
+                      call jsonc%get(attributePointer, genre)
+                      print *, 'Genero: ', genre
+                  end if
+                  call jsonc%get_child(personPointer, 'direccion', attributePointer, found=found)
+                  if (found) then
+                      call jsonc%get(attributePointer, address)
+                      print *, 'Direccion: ', address
+                  end if
+                  call jsonc%get_child(personPointer, 'telefono', attributePointer, found=found)
+                  if (found) then
+                      call jsonc%get(attributePointer, phone_value)
+                      print *, 'Telefono: ', phone_value
+                      read(phone_value,'(I13)') phone
+                  end if
+                  call table%insert(dpi, name, lastname, address, phone)
+              end do
+                  call table%print()
+                  call avl_sucursales%searchNode_hash(id_sucursal, table)
+                  call table%grafico("hash.dot")
+  
+                  call json%destroy()
+      end subroutine leerJson3
+
   end program main
   

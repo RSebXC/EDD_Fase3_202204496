@@ -1,9 +1,9 @@
  digraph G {
- "Node_tbdf7cb7e-b165-4f40-6bc2-38f0b7fb95a6"[label= "id:            2  contra:                               96" ]
- "Node_tbdf7cb7e-b165-4f40-6bc2-38f0b7fb95a6"->"Node_t09303bdc-1058-406b-7756-8b4ad7bfa307"
- "Node_tbdf7cb7e-b165-4f40-6bc2-38f0b7fb95a6"->"Node_t9bc37182-d627-4907-5a2f-e5773ff6b1c7"
- "Node_t09303bdc-1058-406b-7756-8b4ad7bfa307"[label= "id:            1  contra:                               CA" ]
- "Node_t9bc37182-d627-4907-5a2f-e5773ff6b1c7"[label= "id:            4  contra:                               96" ]
- "Node_t9bc37182-d627-4907-5a2f-e5773ff6b1c7"->"Node_tf9753bad-26d4-4869-61f7-34beedbd1700"
- "Node_tf9753bad-26d4-4869-61f7-34beedbd1700"[label= "id:            5  contra:                               63" ]
+ "Node_te1d72a2a-e411-4571-4f73-5d3c8b7f8504"[label= "id:            2  contra:                               96" ]
+ "Node_te1d72a2a-e411-4571-4f73-5d3c8b7f8504"->"Node_tff900378-cdbd-4975-7a12-4dafefdbb536"
+ "Node_te1d72a2a-e411-4571-4f73-5d3c8b7f8504"->"Node_t71da5c70-1027-438d-6fc5-a721c7150c92"
+ "Node_tff900378-cdbd-4975-7a12-4dafefdbb536"[label= "id:            1  contra:                               CA" ]
+ "Node_t71da5c70-1027-438d-6fc5-a721c7150c92"[label= "id:            4  contra:                               96" ]
+ "Node_t71da5c70-1027-438d-6fc5-a721c7150c92"->"Node_tfb46e7a0-2198-4ee2-6f0e-0e82aefb5b27"
+ "Node_tfb46e7a0-2198-4ee2-6f0e-0e82aefb5b27"[label= "id:            5  contra:                               63" ]
  }
