@@ -260,7 +260,7 @@ contains
         type(result), pointer :: current
         current => this%head
         do while (associated(current))
-            write(*,'(A, I0, A, I0)') 'Node: ', current%id, ", Acumulated Weight: ", current%weight
+            write(*,'(A, I0, A, I0)') 'Nodo: ', current%id, ", Acumulated Weight: ", current%weight
             current => current%next
         end do
     end subroutine print
@@ -358,10 +358,8 @@ contains
         type(edge), pointer :: current_edge
         current => this%head
         do while (associated(current))
-            write(*,'(A, I0)') 'Node: ', current%id
             current_edge => current%neighbors%head
             do while (associated(current_edge))
-                write(*,'(A, I0, A, I0, A)', advance='no') 'Edge: ', current_edge%id, ", " ,current_edge%weight, " "
                 current_edge => current_edge%next
             end do
             write(*, *) ''

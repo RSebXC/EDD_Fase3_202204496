@@ -113,7 +113,7 @@ contains
         ! If the key is not in the table
         !
         !
-        print '(a i0 a i0)' , "Position: ", pos, " Key: ", self%array(pos)%key
+        print '(a i0 a i0)' , "Posicion: ", pos, " Key: ", self%array(pos)%key
     end subroutine search
     
 
@@ -180,7 +180,7 @@ contains
         integer :: i
         class(HashTable), intent(inout) :: self
         print '(a, i0)', "Size on table: ", table_size
-        print '(a, i0)', "Elements on table: ", self%elements
+        print '(a, i0)', "Elementos en tabla: ", self%elements
         do i = 0, size(self%array) - 1
             if(self%array(i)%key /= -1) then
                 print '(i0, a, i0, a, a, a, a, a, a, a, i0)',  i, " DPI: ", self%array(i)%key, &

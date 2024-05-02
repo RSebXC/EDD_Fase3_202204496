@@ -1,5 +1,4 @@
 module merkle_tree
-    use sha256_module
     implicit none
     integer :: uid = 1
     type data
@@ -51,7 +50,7 @@ contains
         write(id_d_str, '(I10)') id_destination
         write(cost_str, '(I10)') cost_between
 
-        hash_value = sha256(trim(id_o_str) // address_origin // trim(id_d_str) // address_destination // trim(cost_str))
+        !hash_value = sha256(trim(id_o_str) // address_origin // trim(id_d_str) // address_destination // trim(cost_str))
 
         allocate(new_data)
         allocate(new_data%id_origin, source=id_o_str)
@@ -132,7 +131,7 @@ contains
                 hash = node%dataref%hash_value
                 node%hash = hash
             else 
-                hash = sha256(node%left%hash // node%right%hash)
+                !hash = sha256(node%left%hash // node%right%hash)
                 node%hash = hash
             end if
         end if

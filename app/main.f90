@@ -55,32 +55,32 @@ program main
           select case(opcion)
             case (1)
               print *, "Carga de sucursales."
-              print *, "Ingrese la ruta del archivo de sucursales: "
+              print *, "Ingrese la ruta del archivo de Sucursales: "
               read (*,*) filename_json
               call leerJson()
       
               case (2)
                 print *, "Carga de rutas."
-                print *, "Ingrese la ruta del archivo de sucursales: "
+                print *, "Ingrese la ruta del archivo de Rutas: "
                 read (*,*) filename_json
                 call leerJson2()
                 
               case default
-                  print *,  "Opción inválida."
+                  print *,  "Opcion invalida."
           end select
         case(2)
           print *, "Sucursales seleccionado."
           print *, "Ingrese el id de la sucursal: "
           read (*,*) id_sucursal
-          print *, "Ingrese la contraseña de la sucursal: "
+          print *, "Ingrese la contrasena de la sucursal: "
           read (*,*) passwordEncriptada
           Encriptada = hashPassword(trim(passwordEncriptada))
           call avl_sucursales%searchNode(id_sucursal, Encriptada)
           print *, "Bienvenido a la sucursal ", id_sucursal
-          print *, "Ingrese una opción: "
+          print *, "Ingrese una opcion: "
           print *, "1. Cargar tecnicos"
-          print *, "2. Generar el recorrido más óptimo"
-          print *, "3. Información Técnico en Específico"
+          print *, "2. Generar el recorrido más optimo"
+          print *, "3. Informacion Tecnico en Especifico"
           print *, "4. Listar Tecnicos"
           print *, "5. Generar Reportes"
           print *, "6. Regresar"
@@ -116,11 +116,11 @@ program main
               ganancia2 = ingresoTotal2 - costoTotal2
               
               if (ganancia1 > ganancia2) then 
-                print *, "La mejor solución es la opción 1 con una ganacia de ",ingresoTotal
+                print *, "La mejor solucion es la opcion 1 con una ganacia de ",ingresoTotal
                 print *, "Costo Total: ", costoTotal
                 contador = contador + ingresoTotal
               else if (ganancia2>ganancia1)then
-                print *, "La mejor solución es la opción 2 con una ganacia de ",ingresoTotal2
+                print *, "La mejor solucion es la opcion 2 con una ganacia de ",ingresoTotal2
                 print *, "Costo Total: ", costoTotal2
                 contador = contador + ingresoTotal2
 
@@ -131,7 +131,7 @@ program main
 
               end if
             case(3)
-              print *, "Ingrese el DPI del técnico: "
+              print *, "Ingrese el DPI del tecnico: "
               read (*,*) dpi
               call avl_sucursales%searchNodeESPE(id_sucursal, dpi)
             case(4)
@@ -178,12 +178,12 @@ program main
                   call jsonc%get_child(deptPointer, 'direccion', partPointer, found=found)
                   if (found) then
                     call jsonc%get(partPointer, direccion)
-                    print *, 'Dirección: ', direccion
+                    print *, 'Direccion: ', direccion
                   end if
                   call jsonc%get_child(deptPointer, 'password', partPointer, found=found)
                   if (found) then
                     call jsonc%get(partPointer, password)
-                    print *, 'Contraseña: ', password
+                    print *, 'Contrasena: ', password
                   end if
                   Encriptada = hashPassword(password)
                   call avl_sucursales%insert_node(id_sucursal, departamento, direccion, Encriptada)
@@ -205,33 +205,27 @@ program main
           call jsonc%get_child(edgePointer, 's1', partPointer, found=found)
           if (found) then
               call jsonc%get(partPointer, s1)
-              print *, 'Sucursal 1: ', s1
           end if
 
           call jsonc%get_child(edgePointer, 's2', partPointer, found=found)
           if (found) then
               call jsonc%get(partPointer, s2)
-              print *, 'Sucursal 2: ', s2
           end if
 
           call jsonc%get_child(edgePointer, 'distancia', partPointer, found=found)
           if (found) then
               call jsonc%get(partPointer, distancia)
-              print *, 'Distancia: ', distancia
           end if
 
           call jsonc%get_child(edgePointer, 'imp_mantenimiento', partPointer, found=found)
           if (found) then
               call jsonc%get(partPointer, imp_mantenimiento)
-              print *, 'Impresoras en Mantenimiento: ', imp_mantenimiento
-              print *, "--------------------------------------------------"
           end if
           call graphRutas%insert_data(s1,s2,distancia,imp_mantenimiento)
           call graphImp%insert_data_2(s1,s2,imp_mantenimiento, distancia)
       end do
-      print *, "MOSTRANDO RUTAS ---------------------"
+      print *, " RUTAS CARGADAS---------------------"
       call graphRutas%show()
-      print *, "-------------------------------"
       call analizador%set_graph(graphRutas)
       call analizadorImp%set_graph(graphImp)
       call graphRutas%graficar('Rute')
@@ -250,33 +244,27 @@ program main
                   call jsonc%get_child(personPointer, 'dpi', attributePointer, found=found)
                   if (found) then
                       call jsonc%get(attributePointer, dpi_value)
-                      print *, 'DPI: ', dpi_value
                       read(dpi_value,'(I13)') dpi 
                   end if
                   call jsonc%get_child(personPointer, 'nombre', attributePointer, found=found)
                   if (found) then
                       call jsonc%get(attributePointer, name)
-                      print *, 'Nombre: ', name
                   end if
                   call jsonc%get_child(personPointer, 'apellido', attributePointer, found=found)
                   if (found) then
                       call jsonc%get(attributePointer, lastname)
-                      print *, 'Apellido: ', lastname
                   end if
                   call jsonc%get_child(personPointer, 'genero', attributePointer, found=found)
                   if (found) then
                       call jsonc%get(attributePointer, genre)
-                      print *, 'Genero: ', genre
                   end if
                   call jsonc%get_child(personPointer, 'direccion', attributePointer, found=found)
                   if (found) then
                       call jsonc%get(attributePointer, address)
-                      print *, 'Direccion: ', address
                   end if
                   call jsonc%get_child(personPointer, 'telefono', attributePointer, found=found)
                   if (found) then
                       call jsonc%get(attributePointer, phone_value)
-                      print *, 'Telefono: ', phone_value
                       read(phone_value,'(I13)') phone
                   end if
                   call table%insert(dpi, name, lastname, address, phone)

@@ -368,7 +368,7 @@ module Avl_Tree
         type(Node_t), pointer :: foundNode
     
         if (.not. associated(tree%root)) then
-            print *, "El árbol está vacío."
+            print *, "El arbol está vacio."
             return
         end if
     
@@ -408,14 +408,14 @@ module Avl_Tree
         type(Node_t), pointer :: foundNode
     
         if (.not. associated(tree%root)) then
-            print *, "El árbol está vacío."
+            print *, "El arbol está vacio."
             return
         end if
     
         foundNode => searchNodeRecursive_hash(tree%root, id, tecnico)
     
         if (associated(foundNode)) then
-            print *, "El id ", foundNode%id, " se encontró, con la contraseña: ", foundNode%password           
+            print *, "El id ", foundNode%id, " se encontro, con la contrasena: ", foundNode%password           
             
         else
             print *, "El valor no se encontro", id
@@ -436,7 +436,6 @@ module Avl_Tree
             foundNode => currentNode
             foundNode%tablahash = tecnico
             print *, "Se agrego el tecnico a la tabla hash"
-            call foundNode%tablahash%print()
             return
         elseif (id < currentNode%id) then
             foundNode => searchNodeRecursive_hash(currentNode%Left, id, tecnico)

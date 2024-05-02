@@ -31,7 +31,19 @@ Esta opción permite cargar archivos de sucursales y rutas desde archivos JSON. 
         - Ingresa la ruta completa al archivo JSON que contiene los datos de las sucursales.
     - **Ejemplo de archivo JSON de sucursales:**
     ```json
-    [EJEMPLO JSON DE SUCURSALES]
+    [
+    {
+      "id": 1,
+      "departamento": "Guatemala",
+      "direccion": "7 calle 5-45 zona 1",
+      "password": "1234"
+    },
+    {
+      "id": 2,
+      "departamento": "Huehuetenango",
+      "direccion": "3 avenida 5-45 zona 2",
+      "password": "321"
+    }]
     ```
 
 2. **Cargar Rutas**
@@ -41,7 +53,22 @@ Esta opción permite cargar archivos de sucursales y rutas desde archivos JSON. 
         - Ingresa la ruta completa al archivo JSON que contiene la información de las rutas.
     - **Ejemplo de archivo JSON de rutas:**
     ```json
-    [EJEMPLO JSON DE RUTAS]
+    {
+    "grafo":[
+      {
+        "s1":21,
+        "s2":2,
+        "distancia":5,
+        "imp_mantenimiento":3
+      },
+      {
+        "s1":1,
+        "s2":2,
+        "distancia":10,
+        "imp_mantenimiento":1
+      }
+    ]
+    }
     ```
 
 ### Opción 2: Administrar las Sucursales
@@ -66,7 +93,23 @@ Esta opción te permite administrar las operaciones relacionadas con una sucursa
                 - Ingresa la ruta completa al archivo JSON que contiene los datos de los técnicos.
             - **Ejemplo de archivo JSON de técnicos:**
                 ```json
-                [EJEMPLO JSON DE TÉCNICOS]
+                [
+    {
+        "dpi": "9876543",
+        "nombre": "Luis Alberto",
+        "apellido": "Gómez Ramírez",
+        "genero": "Masculino",
+        "direccion": "15 avenida 12-30 zona 2",
+        "telefono": "65412378"
+    },
+    {
+        "dpi": "4567890",
+        "nombre": "Ana Gabriela",
+        "apellido": "Martínez López",
+        "genero": "Femenino",
+        "direccion": "3 calle 5-10 Mixco",
+        "telefono": "98763214"
+    }]
                 ```
 
         b. **Generar el Recorrido Más Óptimo**
